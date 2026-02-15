@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibeYatra | Pro Edition</title>
+    <title>VibeYatra | Premium Travel App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -14,11 +14,11 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 rounded-4">
                 <div class="modal-body p-5">
-                    <h3 class="fw-bold text-center mb-4">Welcome Back!</h3>
-                    <input type="email" class="form-control mb-3 py-2" placeholder="Email Address">
+                    <h3 class="fw-bold text-center mb-4">Welcome Back</h3>
+                    <input type="email" id="userEmail" class="form-control mb-3 py-2" placeholder="Email Address">
                     <input type="password" class="form-control mb-4 py-2" placeholder="Password">
-                    <button class="btn btn-primary w-100 py-2 fw-bold mb-3" onclick="closeLogin()">Login</button>
-                    <p class="text-center small text-muted">New here? <a href="#" class="text-primary text-decoration-none">Join the Vibe</a></p>
+                    <button class="btn btn-primary w-100 py-2 fw-bold mb-3" onclick="handleLogin()">Login</button>
+                    <p class="text-center small text-muted">New here? <a href="#" onclick="alert('Join the Vibe coming soon!')" class="text-primary text-decoration-none">Join the Vibe</a></p>
                 </div>
             </div>
         </div>
@@ -27,13 +27,15 @@
     <header class="p-3 bg-white shadow-sm sticky-top">
         <div class="container d-flex justify-content-between align-items-center">
             <h4 class="fw-bold text-primary mb-0">VibeYatra</h4>
-            <button class="btn btn-sm btn-primary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+            <button class="btn btn-sm btn-primary rounded-pill px-4" id="navLoginBtn" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
         </div>
     </header>
 
     <section id="home" class="hero-wrap d-flex align-items-center text-white">
         <div class="container text-center">
-            <h1 class="display-5 fw-bold">Where to next, Vaishnavi?</h1>
+            <h1 class="display-5 fw-bold mb-2">Where do you wanna go?</h1>
+            <p class="lead">"Explore the world with a touch of magic"</p>
+            
             <div class="search-box p-3 bg-white rounded shadow-lg mt-4 text-dark mx-auto" style="max-width: 500px;">
                 <div class="row g-2">
                     <div class="col-6"><input list="states" id="fromLoc" class="form-control" placeholder="From?"></div>
@@ -41,44 +43,7 @@
                     <datalist id="states">
                         <option value="Delhi"><option value="Mumbai"><option value="Goa"><option value="Manali"><option value="Jaipur">
                     </datalist>
-                    <div class="col-12">
-                        <button class="btn btn-primary w-100 fw-bold" onclick="showPackages()">Find My Vibe ✨</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="packages" class="py-5 bg-white d-none">
-        <div class="container">
-            <h4 class="fw-bold text-center mb-4">Exclusive Packages for You 🎁</h4>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <div class="card p-3 border-0 shadow-sm bg-light">
-                        <span class="badge bg-warning text-dark w-25 mb-2">Luxury</span>
-                        <h5>Royal Heritage Trip</h5>
-                        <p class="small text-muted mb-3">5 Days | 4 Nights</p>
-                        <h4 class="text-primary fw-bold">₹24,999</h4>
-                        <button class="btn btn-dark btn-sm mt-2">Book Now</button>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card p-3 border-0 shadow-sm bg-light">
-                        <span class="badge bg-info text-white w-25 mb-2">Solo</span>
-                        <h5>Mountain Escape</h5>
-                        <p class="small text-muted mb-3">3 Days | 2 Nights</p>
-                        <h4 class="text-primary fw-bold">₹12,499</h4>
-                        <button class="btn btn-dark btn-sm mt-2">Book Now</button>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card p-3 border-0 shadow-sm bg-light">
-                        <span class="badge bg-success text-white w-25 mb-2">Vibe</span>
-                        <h5>Beach Party Week</h5>
-                        <p class="small text-muted mb-3">4 Days | 3 Nights</p>
-                        <h4 class="text-primary fw-bold">₹18,999</h4>
-                        <button class="btn btn-dark btn-sm mt-2">Book Now</button>
-                    </div>
+                    <div class="col-12"><button class="btn btn-primary w-100 fw-bold" onclick="showPackages()">Find My Vibe ✨</button></div>
                 </div>
             </div>
         </div>
@@ -88,24 +53,42 @@
         <div class="container">
             <h5 class="fw-bold mb-4">Popular Vibes</h5>
             <div class="d-flex overflow-auto gap-3 pb-3 no-scrollbar">
-                <div class="dest-card" data-quote="Mountains are calling!">
-                    <img src="https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=300&q=80" alt="Manali">
-                    <div class="overlay"><h6>"Mountains are calling!"</h6></div>
-                    <h6 class="dest-name">Manali</h6>
-                </div>
-                <div class="dest-card" data-quote="Let the waves hit your feet.">
-                    <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=300&q=80" alt="Goa">
-                    <div class="overlay"><h6>"Vibe with the waves"</h6></div>
-                    <h6 class="dest-name">Goa</h6>
-                </div>
-                <div class="dest-card" data-quote="Live like a Royal.">
-                    <img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=300&q=80" alt="Jaipur">
-                    <div class="overlay"><h6>"Royal Heritage"</h6></div>
-                    <h6 class="dest-name">Jaipur</h6>
-                </div>
+                <div class="dest-card"><img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=300" alt="Delhi"><h6>Delhi</h6><div class="overlay">"Heart of India"</div></div>
+                <div class="dest-card"><img src="https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=300" alt="Manali"><h6>Manali</h6><div class="overlay">"Mountains call"</div></div>
+                <div class="dest-card"><img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=300" alt="Goa"><h6>Goa</h6><div class="overlay">"Sun & Sand"</div></div>
+                <div class="dest-card"><img src="https://images.unsplash.com/photo-1524230507669-5ff9e932b904?auto=format&fit=crop&w=300" alt="Mumbai"><h6>Mumbai</h6><div class="overlay">"City of Dreams"</div></div>
+                <div class="dest-card"><img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=300" alt="Jaipur"><h6>Jaipur</h6><div class="overlay">"Pink City"</div></div>
             </div>
         </div>
     </section>
+
+    <section id="book" class="py-4 bg-light">
+        <div class="container">
+            <div class="card border-0 p-4 shadow-sm">
+                <h5 class="fw-bold mb-3">Book Your Trip</h5>
+                <label class="small text-muted">Select Date (Future Only)</label>
+                <input type="date" id="tripDate" class="form-control mb-3">
+                <label class="small text-muted d-flex justify-content-between">Budget Range <span id="budgetValue">₹50000</span></label>
+                <input type="range" id="budgetSlider" class="form-range" min="5000" max="100000" step="1000" value="50000">
+                <button class="btn btn-dark w-100 mt-3 fw-bold" onclick="confirmBooking()">Check Availability</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="packages" class="py-5 bg-white d-none">
+        <div class="container">
+            <h4 class="fw-bold text-center mb-4" id="packageTitle">Packages for You</h4>
+            <div id="packageList" class="row g-3">
+                </div>
+        </div>
+    </section>
+
+    <nav class="bottom-nav fixed-bottom bg-white border-top d-flex justify-content-around py-2">
+        <a href="#home" class="nav-item active"><div class="icon">🏠</div><div class="label">Home</div></a>
+        <a href="#explore" class="nav-item"><div class="icon">📍</div><div class="label">Explore</div></a>
+        <a href="#book" class="nav-item"><div class="icon">📅</div><div class="label">Book</div></a>
+        <a href="#" class="nav-item"><div class="icon">👤</div><div class="label">Profile</div></a>
+    </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>

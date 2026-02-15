@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VibeYatra | Your Travel Partner</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
     <header class="p-3 bg-white shadow-sm sticky-top">
         <div class="container d-flex justify-content-between align-items-center">
             <h4 class="fw-bold text-primary mb-0">VibeYatra</h4>
-            <button class="btn btn-sm btn-primary rounded-pill px-3">Login</button>
+            <button class="btn btn-sm btn-primary rounded-pill px-4" id="loginBtn">Login</button>
         </div>
     </header>
 
@@ -21,11 +21,29 @@
         <div class="container text-center">
             <h1 class="display-5 fw-bold">Where to next, Vaishnavi?</h1>
             <p>Explore the world with a touch of magic ✨</p>
-            <div class="search-box p-3 bg-white rounded shadow-lg mt-4 text-dark">
+            
+            <div class="search-box p-3 bg-white rounded shadow-lg mt-4 text-dark mx-auto" style="max-width: 500px;">
                 <div class="row g-2">
-                    <div class="col-6"><input type="text" class="form-control" placeholder="From?"></div>
-                    <div class="col-6"><input type="text" class="form-control" placeholder="To?"></div>
-                    <div class="col-12"><button class="btn btn-primary w-100">Search Packages</button></div>
+                    <div class="col-6">
+                        <input list="states" id="fromLoc" class="form-control" placeholder="From?">
+                    </div>
+                    <div class="col-6">
+                        <input list="states" id="toLoc" class="form-control" placeholder="To?">
+                    </div>
+                    
+                    <datalist id="states">
+                        <option value="Delhi">
+                        <option value="Mumbai">
+                        <option value="Goa">
+                        <option value="Manali">
+                        <option value="Jaipur">
+                        <option value="Kerala">
+                        <option value="Varanasi">
+                    </datalist>
+
+                    <div class="col-12">
+                        <button class="btn btn-primary w-100 fw-bold" onclick="searchTrip()">Search Packages</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -35,47 +53,60 @@
         <div class="container">
             <h5 class="fw-bold mb-4">Popular Destinations</h5>
             <div class="d-flex overflow-auto gap-3 pb-3 no-scrollbar">
+                
                 <div class="dest-card">
                     <img src="https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=300&q=80" alt="Manali">
                     <h6>Manali</h6>
                 </div>
+
                 <div class="dest-card">
-                    <img src="https://images.unsplash.com/photo-1524230507669-5ff9e932b904?auto=format&fit=crop&w=300&q=80" alt="Goa">
+                    <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=300&q=80" alt="Goa">
                     <h6>Goa</h6>
                 </div>
+
                 <div class="dest-card">
-                    <img src="https://images.unsplash.com/photo-1590393081626-8157520e189d?auto=format&fit=crop&w=300&q=80" alt="Jaipur">
+                    <img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=300&q=80" alt="Jaipur">
                     <h6>Jaipur</h6>
+                </div>
+
+                <div class="dest-card">
+                    <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=300&q=80" alt="Kerala">
+                    <h6>Kerala</h6>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="book" class="py-4 bg-light">
+    <section id="book" class="py-4 bg-light mb-5">
         <div class="container">
             <div class="card border-0 p-4 shadow-sm">
-                <h5 class="fw-bold">Book a Trip</h5>
-                <label class="small mt-2">Preferred Date</label>
-                <input type="date" class="form-control mb-3">
-                <label class="small">Budget Range</label>
-                <input type="range" class="form-range" min="5000" max="100000">
-                <button class="btn btn-dark w-100 mt-3" onclick="confirmBooking()">Check Availability</button>
+                <h5 class="fw-bold mb-3">Book Your Trip</h5>
+                
+                <label class="small text-muted">Select Date (Future Only)</label>
+                <input type="date" id="tripDate" class="form-control mb-3">
+                
+                <label class="small text-muted d-flex justify-content-between">
+                    Budget Range <span><b id="budgetValue">₹50000</b></span>
+                </label>
+                <input type="range" id="budgetSlider" class="form-range" min="5000" max="100000" step="1000" value="50000">
+                
+                <button class="btn btn-dark w-100 mt-3 py-2 fw-bold" onclick="confirmBooking()">Check Availability</button>
             </div>
         </div>
     </section>
 
     <nav class="bottom-nav fixed-bottom bg-white border-top d-flex justify-content-around py-2">
-        <a href="#home" class="text-center text-decoration-none text-dark">
-            <div class="small">🏠</div><div class="x-small">Home</div>
+        <a href="#home" class="nav-item active">
+            <div class="icon">🏠</div><div class="label">Home</div>
         </a>
-        <a href="#explore" class="text-center text-decoration-none text-dark">
-            <div class="small">📍</div><div class="x-small">Explore</div>
+        <a href="#explore" class="nav-item">
+            <div class="icon">📍</div><div class="label">Explore</div>
         </a>
-        <a href="#book" class="text-center text-decoration-none text-dark">
-            <div class="small">📅</div><div class="x-small">Book</div>
+        <a href="#book" class="nav-item">
+            <div class="icon">📅</div><div class="label">Book</div>
         </a>
-        <a href="#contact" class="text-center text-decoration-none text-dark">
-            <div class="small">👤</div><div class="x-small">Profile</div>
+        <a href="#" class="nav-item">
+            <div class="icon">👤</div><div class="label">Profile</div>
         </a>
     </nav>
 

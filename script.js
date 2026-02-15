@@ -1,56 +1,28 @@
-// 1. Budget Slider Interaction
-const budgetSlider = document.getElementById("budgetSlider");
-const budgetValueText = document.getElementById("budgetValue");
-
-budgetSlider.addEventListener("input", (e) => {
-    budgetValueText.innerText = "₹" + e.target.value;
-});
-
-// 2. Login Button Alert
-document.getElementById("loginBtn").onclick = function() {
-    alert("Hi Vaishnavi! Opening the Login portal... 🔐");
-};
-
-// 3. Search Package Logic
-function searchTrip() {
+// Function to show packages after search
+function showPackages() {
     const from = document.getElementById("fromLoc").value;
     const to = document.getElementById("toLoc").value;
 
-    if (from === "" || to === "") {
-        alert("Please select both 'From' and 'To' locations! 📍");
+    if (from && to) {
+        // Pop up message
+        alert("Searching for the best vibes from " + from + " to " + to + "... ✈️");
+        
+        // Remove the 'd-none' class to show the section
+        setTimeout(() => {
+            const pkgSection = document.getElementById("packages");
+            pkgSection.classList.remove("d-none");
+            
+            // Scroll to the packages smoothly
+            pkgSection.scrollIntoView({ behavior: 'smooth' });
+        }, 1000);
     } else {
-        alert("Yay! Searching for the best vibes from " + from + " to " + to + "... ✈️");
+        alert("Please select your locations first! 📍");
     }
 }
 
-// 4. Date Logic: Disable Past Dates
-const dateInput = document.getElementById("tripDate");
-const today = new Date().toISOString().split('T')[0];
-dateInput.setAttribute('min', today);
-
-// 5. Check Availability Logic
-function confirmBooking() {
-    const selectedDate = dateInput.value;
-    const currentBudget = budgetSlider.value;
-
-    if (!selectedDate) {
-        alert("Please pick a date for your adventure! 📅");
-        return;
-    }
-
-    alert("Checking availability for " + selectedDate + " within ₹" + currentBudget + "...");
-    
-    // Fake loading effect
-    setTimeout(() => {
-        alert("Success! We found 3 Exclusive Packages for you. Check your Profile! 👑");
-    }, 1500);
+// Function to handle login (fake)
+function closeLogin() {
+    const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+    modal.hide();
+    alert("Login Successful! Welcome, Vaishnavi. 👑");
 }
-
-// 6. Navigation Active Effect
-const navLinks = document.querySelectorAll('.nav-item');
-navLinks.forEach(link => {
-    link.addEventListener('click', function() {
-        navLinks.forEach(l => l.classList.remove('active'));
-        this.classList.add('active');
-    });
-});

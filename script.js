@@ -1,66 +1,80 @@
-// 1. Budget UI
+// 1. Budget Label Fix
 const slider = document.getElementById("budgetSlider");
 slider.addEventListener("input", (e) => { 
     document.getElementById("budgetValue").innerText = "₹" + e.target.value; 
 });
 
-// 2. Login Logic with Name Support
+// 2. Login Logic
 function handleLogin() {
     const name = document.getElementById("userName").value;
     const email = document.getElementById("userEmail").value;
-    
-    if(!email.includes('@') || email.length < 5) {
-        return alert("Please enter a valid email address! 📧");
-    }
+    if(!email.includes('@')) return alert("Enter a valid Gmail/Email! 📧");
 
-    const displayName = name ? name : email.split('@')[0];
     bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
-    document.getElementById("navLoginBtn").innerText = "Hi, " + displayName;
-    alert("Vibe check passed! Welcome, " + displayName + " ✨");
+    document.getElementById("navLoginBtn").innerText = "Hi, " + (name || email.split('@')[0]);
 }
 
-// 3. Dynamic Packages with Vibe
+// 3. Distance & Price Logic (Realistic)
 function showPackages() {
+    const from = document.getElementById("fromLoc").value;
     const to = document.getElementById("toLoc").value;
-    if(!to) return alert("Where are we going? Select a destination! 📍");
+
+    if(!to || !from) return alert("Select both locations!");
+    if(from === to) return alert("Source and Destination cannot be the same! ❌");
+
+    // Realistic pricing based on distance (Simplified for demo)
+    let basePrice = (from === "Mumbai" && to === "Delhi") ? 45000 : 25000;
+    if (to === "Goa" && from !== "Goa") basePrice += 10000;
 
     const list = document.getElementById("packageList");
     document.getElementById("packages").classList.remove("d-none");
 
-    const pkgs = [
-        { title: `Royal ${to} Heritage`, price: "₹34,999", class: "badge-luxury", label: "LUXURY" },
-        { title: `Solo ${to} Explorer`, price: "₹14,499", class: "badge-solo", label: "SOLO" },
-        { title: `${to} Family Vibe`, price: "₹24,999", class: "badge-family", label: "FAMILY" }
-    ];
-
-    list.innerHTML = pkgs.map(p => `
+    list.innerHTML = `
         <div class="col-md-4">
             <div class="card pkg-card p-4">
-                <span class="badge ${p.class} w-50 mb-3">${p.label}</span>
-                <h5 class="fw-bold">${p.title}</h5>
-                <p class="price-tag mt-2">${p.price}</p>
-                <button class="btn btn-dark w-100 rounded-pill mt-3" onclick="triggerPayment()">Book Now</button>
+                <span class="badge badge-gold w-50 mb-3">LUXURY</span>
+                <h5 class="fw-bold">Premium ${to} Stay</h5>
+                <h3 class="text-primary fw-bold">₹${basePrice}</h3>
+                <button class="btn btn-dark w-100 rounded-pill mt-3" onclick="openPaymentSelection()">Book Slot</button>
             </div>
         </div>
-    `).join('');
-
-    window.scrollTo({ top: document.getElementById("packages").offsetTop - 100, behavior: 'smooth' });
+    `;
+    window.scrollTo({ top: document.getElementById("packages").offsetTop - 80, behavior: 'smooth' });
 }
 
-function triggerPayment() {
-    const payModal = new bootstrap.Modal(document.getElementById('paymentModal'));
-    payModal.show();
+// 4. Detailed Payment Flow (The Real Deal)
+function openPaymentSelection() {
+    new bootstrap.Modal(document.getElementById('paymentModal')).show();
 }
 
-function finalPay(method) {
-    alert(`Processing payment via ${method}... Please do not refresh. ⏳`);
+function showDetailsForm(type) {
+    bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+    const detailModal = new bootstrap.Modal(document.getElementById('paymentDetailsModal'));
+    const formContainer = document.getElementById("detailsForm");
+    
+    if(type === 'UPI') {
+        document.getElementById("paymentTitle").innerText = "Enter UPI ID";
+        formContainer.innerHTML = `<input type="text" class="form-control" placeholder="username@okhdfcbank">`;
+    } else {
+        document.getElementById("paymentTitle").innerText = "Card Details";
+        formContainer.innerHTML = `
+            <input type="text" class="form-control mb-2" placeholder="16 Digit Card Number">
+            <div class="d-flex gap-2">
+                <input type="text" class="form-control" placeholder="MM/YY">
+                <input type="password" class="form-control" placeholder="CVV">
+            </div>`;
+    }
+    detailModal.show();
+}
+
+function processFinalAnimation() {
+    alert("Authenticating Transaction... Please do not close the window. 🛡️");
     setTimeout(() => {
-        alert("Payment Successful! Your ticket to adventure is booked. Check your email! ✈️🎫");
-        bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+        alert("Payment Verified! Your adventure is confirmed. 🎫 Check your email!");
+        bootstrap.Modal.getInstance(document.getElementById('paymentDetailsModal')).hide();
     }, 2000);
 }
 
-function confirmBooking() {
-    const to = document.getElementById("toLoc").value;
-    alert(`Checking the best ${to || 'travel'} vibes for your budget... 🚀`);
+function confirmAvailability() {
+    alert(`Checking real-time slots for ${document.getElementById("toLoc").value}... 🚀`);
 }

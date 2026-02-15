@@ -1,43 +1,66 @@
-// 1. Budget Interaction
+// 1. Budget UI
 const slider = document.getElementById("budgetSlider");
-const valText = document.getElementById("budgetValue");
-slider.addEventListener("input", (e) => { valText.innerText = "₹" + e.target.value; });
+slider.addEventListener("input", (e) => { 
+    document.getElementById("budgetValue").innerText = "₹" + e.target.value; 
+});
 
-// 2. Date Logic
-const dateInput = document.getElementById("tripDate");
-dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
-
-// 3. Login Logic
+// 2. Login Logic with Name Support
 function handleLogin() {
+    const name = document.getElementById("userName").value;
     const email = document.getElementById("userEmail").value;
-    if(email) {
-        bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
-        document.getElementById("navLoginBtn").innerText = "Hi, " + email.split('@')[0];
-        alert("Login Successful! 👑");
+    
+    if(!email.includes('@') || email.length < 5) {
+        return alert("Please enter a valid email address! 📧");
     }
+
+    const displayName = name ? name : email.split('@')[0];
+    bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+    document.getElementById("navLoginBtn").innerText = "Hi, " + displayName;
+    alert("Vibe check passed! Welcome, " + displayName + " ✨");
 }
 
-// 4. Dynamic Packages Logic
+// 3. Dynamic Packages with Vibe
 function showPackages() {
     const to = document.getElementById("toLoc").value;
-    if(!to) return alert("Select destination!");
+    if(!to) return alert("Where are we going? Select a destination! 📍");
 
-    const packageSection = document.getElementById("packages");
     const list = document.getElementById("packageList");
-    
-    // Changing packages based on destination
-    let type = (to === "Goa") ? "Beach Party" : (to === "Manali") ? "Mountain Escape" : "City Heritage";
-    
-    list.innerHTML = `
-        <div class="col-md-4"><div class="card p-3 shadow-sm"><h5>Luxury ${to} Trip</h5><h4 class="text-primary">₹45,000</h4><button class="btn btn-dark" onclick="alert('Booking confirmed!')">Book Now</button></div></div>
-        <div class="col-md-4"><div class="card p-3 shadow-sm"><h5>Solo ${type}</h5><h4 class="text-primary">₹12,000</h4><button class="btn btn-dark" onclick="alert('Redirecting to Payment...')">Book Now</button></div></div>
-        <div class="col-md-4"><div class="card p-3 shadow-sm"><h5>Family Vibe</h5><h4 class="text-primary">₹25,000</h4><button class="btn btn-dark" onclick="alert('Processing...')">Book Now</button></div></div>
-    `;
+    document.getElementById("packages").classList.remove("d-none");
 
-    packageSection.classList.remove("d-none");
-    packageSection.scrollIntoView({ behavior: 'smooth' });
+    const pkgs = [
+        { title: `Royal ${to} Heritage`, price: "₹34,999", class: "badge-luxury", label: "LUXURY" },
+        { title: `Solo ${to} Explorer`, price: "₹14,499", class: "badge-solo", label: "SOLO" },
+        { title: `${to} Family Vibe`, price: "₹24,999", class: "badge-family", label: "FAMILY" }
+    ];
+
+    list.innerHTML = pkgs.map(p => `
+        <div class="col-md-4">
+            <div class="card pkg-card p-4">
+                <span class="badge ${p.class} w-50 mb-3">${p.label}</span>
+                <h5 class="fw-bold">${p.title}</h5>
+                <p class="price-tag mt-2">${p.price}</p>
+                <button class="btn btn-dark w-100 rounded-pill mt-3" onclick="triggerPayment()">Book Now</button>
+            </div>
+        </div>
+    `).join('');
+
+    window.scrollTo({ top: document.getElementById("packages").offsetTop - 100, behavior: 'smooth' });
+}
+
+function triggerPayment() {
+    const payModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+    payModal.show();
+}
+
+function finalPay(method) {
+    alert(`Processing payment via ${method}... Please do not refresh. ⏳`);
+    setTimeout(() => {
+        alert("Payment Successful! Your ticket to adventure is booked. Check your email! ✈️🎫");
+        bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+    }, 2000);
 }
 
 function confirmBooking() {
-    alert("Checking all " + document.getElementById("toLoc").value + " packages for you... ✈️");
+    const to = document.getElementById("toLoc").value;
+    alert(`Checking the best ${to || 'travel'} vibes for your budget... 🚀`);
 }

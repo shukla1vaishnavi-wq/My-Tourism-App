@@ -1,28 +1,43 @@
-// Function to show packages after search
-function showPackages() {
-    const from = document.getElementById("fromLoc").value;
-    const to = document.getElementById("toLoc").value;
+// 1. Budget Interaction
+const slider = document.getElementById("budgetSlider");
+const valText = document.getElementById("budgetValue");
+slider.addEventListener("input", (e) => { valText.innerText = "₹" + e.target.value; });
 
-    if (from && to) {
-        // Pop up message
-        alert("Searching for the best vibes from " + from + " to " + to + "... ✈️");
-        
-        // Remove the 'd-none' class to show the section
-        setTimeout(() => {
-            const pkgSection = document.getElementById("packages");
-            pkgSection.classList.remove("d-none");
-            
-            // Scroll to the packages smoothly
-            pkgSection.scrollIntoView({ behavior: 'smooth' });
-        }, 1000);
-    } else {
-        alert("Please select your locations first! 📍");
+// 2. Date Logic
+const dateInput = document.getElementById("tripDate");
+dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
+
+// 3. Login Logic
+function handleLogin() {
+    const email = document.getElementById("userEmail").value;
+    if(email) {
+        bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+        document.getElementById("navLoginBtn").innerText = "Hi, " + email.split('@')[0];
+        alert("Login Successful! 👑");
     }
 }
 
-// Function to handle login (fake)
-function closeLogin() {
-    const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-    modal.hide();
-    alert("Login Successful! Welcome, Vaishnavi. 👑");
+// 4. Dynamic Packages Logic
+function showPackages() {
+    const to = document.getElementById("toLoc").value;
+    if(!to) return alert("Select destination!");
+
+    const packageSection = document.getElementById("packages");
+    const list = document.getElementById("packageList");
+    
+    // Changing packages based on destination
+    let type = (to === "Goa") ? "Beach Party" : (to === "Manali") ? "Mountain Escape" : "City Heritage";
+    
+    list.innerHTML = `
+        <div class="col-md-4"><div class="card p-3 shadow-sm"><h5>Luxury ${to} Trip</h5><h4 class="text-primary">₹45,000</h4><button class="btn btn-dark" onclick="alert('Booking confirmed!')">Book Now</button></div></div>
+        <div class="col-md-4"><div class="card p-3 shadow-sm"><h5>Solo ${type}</h5><h4 class="text-primary">₹12,000</h4><button class="btn btn-dark" onclick="alert('Redirecting to Payment...')">Book Now</button></div></div>
+        <div class="col-md-4"><div class="card p-3 shadow-sm"><h5>Family Vibe</h5><h4 class="text-primary">₹25,000</h4><button class="btn btn-dark" onclick="alert('Processing...')">Book Now</button></div></div>
+    `;
+
+    packageSection.classList.remove("d-none");
+    packageSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+function confirmBooking() {
+    alert("Checking all " + document.getElementById("toLoc").value + " packages for you... ✈️");
 }

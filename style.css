@@ -1,5 +1,5 @@
-:root { --primary-color: #007bff; --luxury: #ffc107; --solo: #0dcaf0; --family: #198754; }
-body { font-family: 'Poppins', sans-serif; background: #fdfdfd; padding-bottom: 80px; }
+:root { --primary-color: #007bff; }
+body { font-family: 'Poppins', sans-serif; background: #fafafa; padding-bottom: 80px; }
 
 .hero-wrap {
     height: 48vh;
@@ -7,21 +7,26 @@ body { font-family: 'Poppins', sans-serif; background: #fdfdfd; padding-bottom: 
     background-size: cover; background-position: center; border-radius: 0 0 40px 40px;
 }
 
+/* HOVER & QUOTES FIXED */
 .dest-card {
-    height: 120px; border-radius: 15px; overflow: hidden; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    height: 140px; border-radius: 18px; overflow: hidden; position: relative; cursor: pointer;
 }
-.dest-card img { width: 100%; height: 100%; object-fit: cover; }
-.dest-card h6 { position: absolute; bottom: 8px; left: 10px; color: white; font-size: 0.8rem; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+.dest-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease; }
+.dest-card h6 { position: absolute; bottom: 8px; left: 12px; color: white; font-size: 0.85rem; font-weight: 600; text-shadow: 1px 1px 5px #000; z-index: 2; }
 
-/* Package Vibe */
-.pkg-card { border: none; border-radius: 20px; background: #f8f9fa; transition: 0.3s; }
-.pkg-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-.badge-luxury { background: var(--luxury); color: #000; }
-.badge-solo { background: var(--solo); color: #fff; }
-.badge-family { background: var(--family); color: #fff; }
-.price-tag { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+.overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6); color: white; display: flex; align-items: center;
+    justify-content: center; opacity: 0; transition: 0.4s; padding: 10px; text-align: center;
+    font-size: 0.75rem; font-style: italic; z-index: 3;
+}
+.dest-card:hover .overlay { opacity: 1; }
+.dest-card:hover img { transform: scale(1.15); }
+
+/* Package Badges */
+.pkg-card { border-radius: 20px; border: none; background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.badge-gold { background: #ffd700; color: #000; }
 
 .bottom-nav { height: 70px; }
-.nav-item { text-align: center; text-decoration: none; color: #999; }
+.nav-item { text-align: center; text-decoration: none; color: #bbb; }
 .nav-item.active { color: var(--primary-color); }
-.label { font-size: 10px; font-weight: 600; }

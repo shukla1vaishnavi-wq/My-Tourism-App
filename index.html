@@ -3,22 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibeYatra | Pro Max</title>
+    <title>VibeYatra | Realistic Pro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="modal fade" id="paymentModal" tabindex="-1">
+    <div class="modal fade" id="paymentDetailsModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4">
-                <div class="modal-header border-0"><h5 class="fw-bold">Select Payment Method</h5></div>
-                <div class="modal-body">
-                    <div class="list-group">
-                        <button class="list-group-item list-group-item-action border-0 py-3" onclick="finalPay('UPI')">📱 Google Pay / PhonePe (UPI)</button>
-                        <button class="list-group-item list-group-item-action border-0 py-3" onclick="finalPay('Card')">💳 Debit / Credit Card</button>
-                        <button class="list-group-item list-group-item-action border-0 py-3" onclick="finalPay('NetBanking')">🏦 Net Banking</button>
+                <div class="modal-body p-4">
+                    <h5 class="fw-bold mb-3" id="paymentTitle">Enter Details</h5>
+                    <div id="detailsForm">
+                        </div>
+                    <button class="btn btn-primary w-100 mt-3 fw-bold" onclick="processFinalAnimation()">Pay Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="paymentModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0">
+                <div class="modal-header border-0"><h5 class="fw-bold">Payment Method</h5></div>
+                <div class="modal-body p-0">
+                    <div class="list-group list-group-flush">
+                        <button class="list-group-item list-group-item-action py-3" onclick="showDetailsForm('UPI')">📱 UPI (GPay/PhonePe)</button>
+                        <button class="list-group-item list-group-item-action py-3" onclick="showDetailsForm('Card')">💳 Debit/Credit Card</button>
                     </div>
                 </div>
             </div>
@@ -29,11 +41,11 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 rounded-4">
                 <div class="modal-body p-5">
-                    <h3 class="fw-bold text-center mb-4">Welcome back</h3>
-                    <input type="text" id="userName" class="form-control mb-3 py-2" placeholder="Your Name">
-                    <input type="email" id="userEmail" class="form-control mb-3 py-2" placeholder="Email Address">
+                    <h3 class="fw-bold text-center mb-4">Join the Vibe</h3>
+                    <input type="text" id="userName" class="form-control mb-3 py-2" placeholder="Full Name">
+                    <input type="email" id="userEmail" class="form-control mb-3 py-2" placeholder="Email (must contain @)">
                     <input type="password" class="form-control mb-4 py-2" placeholder="Password">
-                    <button class="btn btn-primary w-100 py-2 fw-bold" onclick="handleLogin()">Join the Vibe</button>
+                    <button class="btn btn-primary w-100 py-2 fw-bold" onclick="handleLogin()">Login</button>
                 </div>
             </div>
         </div>
@@ -66,12 +78,48 @@
         <div class="container">
             <h5 class="fw-bold mb-4">Popular Vibes</h5>
             <div class="row g-3">
-                <div class="col-4 col-md-4"><div class="dest-card small-card"><img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=400" alt="Delhi"><h6>Delhi</h6></div></div>
-                <div class="col-4 col-md-4"><div class="dest-card small-card"><img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=400" alt="Manali"><h6>Manali</h6></div></div>
-                <div class="col-4 col-md-4"><div class="dest-card small-card"><img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=400" alt="Goa"><h6>Goa</h6></div></div>
-                <div class="col-4 col-md-4"><div class="dest-card small-card"><img src="https://images.unsplash.com/photo-1562391776-a8dc0bc050ff?auto=format&fit=crop&w=400" alt="Mumbai"><h6>Mumbai</h6></div></div>
-                <div class="col-4 col-md-4"><div class="dest-card small-card"><img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=400" alt="Jaipur"><h6>Jaipur</h6></div></div>
-                <div class="col-4 col-md-4"><div class="dest-card small-card"><img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=400" alt="Kerala"><h6>Kerala</h6></div></div>
+                <div class="col-4 col-md-4">
+                    <div class="dest-card">
+                        <img src="https://images.unsplash.com/photo-1587474260584-136574528ed5?w=400" alt="Delhi">
+                        <div class="overlay">"Heart of India"</div>
+                        <h6>Delhi</h6>
+                    </div>
+                </div>
+                <div class="col-4 col-md-4">
+                    <div class="dest-card">
+                        <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=400" alt="Manali">
+                        <div class="overlay">"Snowy Paradise"</div>
+                        <h6>Manali</h6>
+                    </div>
+                </div>
+                <div class="col-4 col-md-4">
+                    <div class="dest-card">
+                        <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=400" alt="Goa">
+                        <div class="overlay">"Sun, Sand, Sea"</div>
+                        <h6>Goa</h6>
+                    </div>
+                </div>
+                <div class="col-4 col-md-4">
+                    <div class="dest-card">
+                        <img src="https://images.unsplash.com/photo-1718515743530-9371a9389096?q=80&w=870" alt="Mumbai">
+                        <div class="overlay">"The Unstoppable City"</div>
+                        <h6>Mumbai</h6>
+                    </div>
+                </div>
+                <div class="col-4 col-md-4">
+                    <div class="dest-card">
+                        <img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?w=400" alt="Jaipur">
+                        <div class="overlay">"Royal Pink City"</div>
+                        <h6>Jaipur</h6>
+                    </div>
+                </div>
+                <div class="col-4 col-md-4">
+                    <div class="dest-card">
+                        <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=400" alt="Kerala">
+                        <div class="overlay">"God's Own Country"</div>
+                        <h6>Kerala</h6>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -79,19 +127,19 @@
     <section id="book" class="py-4 bg-light">
         <div class="container">
             <div class="card border-0 p-4 shadow-sm">
-                <h5 class="fw-bold mb-3">Book Your Trip</h5>
-                <label class="small text-muted">Select Date</label>
+                <h5 class="fw-bold mb-3">Check Availability</h5>
+                <label class="small text-muted">Trip Date</label>
                 <input type="date" id="tripDate" class="form-control mb-3">
-                <label class="small text-muted d-flex justify-content-between">Budget <span id="budgetValue">₹50000</span></label>
-                <input type="range" id="budgetSlider" class="form-range" min="5000" max="100000" step="1000" value="50000">
-                <button class="btn btn-dark w-100 mt-3" onclick="confirmBooking()">Check Availability</button>
+                <label class="small text-muted d-flex justify-content-between">Max Budget <span id="budgetValue">₹50000</span></label>
+                <input type="range" id="budgetSlider" class="form-range" min="5000" max="150000" step="1000" value="50000">
+                <button class="btn btn-dark w-100 mt-3" onclick="confirmAvailability()">Search Live Slots</button>
             </div>
         </div>
     </section>
 
     <section id="packages" class="py-5 bg-white d-none">
         <div class="container">
-            <h4 class="fw-bold text-center mb-4">Exclusive Packages</h4>
+            <h4 class="fw-bold text-center mb-4">Tailored Packages</h4>
             <div id="packageList" class="row g-3"></div>
         </div>
     </section>
@@ -99,8 +147,8 @@
     <nav class="bottom-nav fixed-bottom bg-white border-top d-flex justify-content-around py-2">
         <a href="#home" class="nav-item active"><div class="icon">🏠</div><div class="label">Home</div></a>
         <a href="#explore" class="nav-item"><div class="icon">📍</div><div class="label">Explore</div></a>
-        <a href="#book" class="nav-item"><div class="icon">📅</div><div class="label">Book</div></a>
-        <a href="#" class="nav-item"><div class="icon">👤</div><div class="label">Profile</div></a>
+        <a href="#book" class="nav-item"><div class="icon">📅</div><div class="label">Slots</div></a>
+        <a href="#" class="nav-item"><div class="icon">👤</div><div class="label">Me</div></a>
     </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
